@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ТОП-20 AI для Квизов</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white: #ffffff;
+    --ink: #111111;
+    --soft: #f5f5f3;
+    --accent: #ff3c2f;
+    --mid: #888;
+    --border: #e0e0e0;
+  }
+
+  body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 0 24px 80px;
+  }
+
+  header {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 0 48px;
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 96px);
+    letter-spacing: 0.01em;
+    line-height: 0.9;
+  }
+
+  header h1 span {
+    color: var(--accent);
+  }
+
+  header p {
+    max-width: 260px;
+    color: var(--mid);
+    font-size: 13px;
+    font-weight: 300;
+    text-align: right;
+  }
+
+  .filters {
+    max-width: 900px;
+    margin: 32px auto 8px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tag-btn {
+    border: 1.5px solid var(--border);
+    background: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tag-btn:hover, .tag-btn.active {
+    border-color: var(--ink);
+    color: var(--ink);
+    background: var(--soft);
+  }
+
+  .grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    background: var(--border);
+    margin-top: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .card {
+    background: var(--white);
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .card:hover { background: var(--soft); }
+
+  .card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .card-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-name .flag {
+    font-size: 14px;
+  }
+
+  .card-desc {
+    font-size: 12.5px;
+    color: #555;
+    font-weight: 300;
+    flex: 1;
+    line-height: 1.6;
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .ctag {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--soft);
+    color: var(--mid);
+    border: 1px solid var(--border);
+  }
+  .ctag.edu { background: #fff8e1; color: #b8860b; border-color: #ffe082; }
+  .ctag.mkt { background: #fce4ec; color: #c62828; border-color: #ef9a9a; }
+  .ctag.game { background: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
+  .ctag.ru { background: #e3f2fd; color: #1565c0; border-color: #90caf9; }
+  .ctag.free { background: #f3e5f5; color: #6a1b9a; border-color: #ce93d8; }
+
+  .card-link {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    transition: opacity 0.2s;
+  }
+  .card-link:hover { opacity: 0.7; }
+  .card-link::after { content: '↗'; }
+
+  footer {
+    max-width: 900px;
+    margin: 48px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--mid);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ТОП-20<br><span>AI</span> КВИЗОВ</h1>
+  <p>Лучшие нейросети и платформы для создания квизов, тестов и викторин — 2025</p>
+</header>
+
+<div class="filters">
+  <button class="tag-btn active" onclick="filterCards('all', this)">Все</button>
+  <button class="tag-btn" onclick="filterCards('edu', this)">📚 Образование</button>
+  <button class="tag-btn" onclick="filterCards('mkt', this)">💼 Маркетинг</button>
+  <button class="tag-btn" onclick="filterCards('game', this)">🎮 Развлечение</button>
+  <button class="tag-btn" onclick="filterCards('ru', this)">🇷🇺 Русские</button>
+  <button class="tag-btn" onclick="filterCards('free', this)">🆓 Бесплатно</button>
+</div>
+
+<div class="grid" id="grid">
+
+  <div class="card" data-tags="edu free">
+    <span class="card-num">01</span>
+    <div class="card-name">Quizbot AI</div>
+    <p class="card-desc">Генерирует тесты из PDF и текста. Экспорт в LMS, аналитика, разные форматы вопросов.</p>
+    <div class="card-tags"><span class="ctag edu">Образование</span><span class="ctag free">Бесплатно</span></div>
+    <a href="https://quizbot.ai" target="_blank" class="card-link">quizbot.ai</a>
+  </div>
+
+  <div class="card" data-tags="edu">
+    <span class="card-num">02</span>
+    <div class="card-name">Questgen</div>
+    <p class="card-desc">Специализированный генератор квизов. Отлично работает с учебными материалами.</p>
+    <div class="card-tags"><span class="ctag edu">Образование</span></div>
+    <a href="https://questgen.ai" target="_blank" class="card-link">questgen.ai</a>
+  </div>
+
+  <div class="card" data-tags="game edu free">
+    <span class="card-num">03</span>
+    <div class="card-name">Kahoot! AI <span class="flag">🎮</span></div>
+    <p class="card-desc">Легендарная платформа для игровых викторин. Мультиплеер, рейтинги, живые сессии с ИИ.</p>
+    <div class="card-tags"><span class="ctag game">Игры</span><span class="ctag edu">Образование</span></div>
+    <a href="https://kahoot.com" target="_blank" class="card-link">kahoot.com</a>
+  </div>
+
+  <div class="card" data-tags="edu mkt">
+    <span class="card-num">04</span>
+    <div class="card-name">Mentimeter AI</div>
+    <p class="card-desc">Удобен для викторин в живых презентациях. Быстрая генерация опросов и тестов.</p>
+    <div class="card-tags"><span class="ctag edu">Образование</span><span class="ctag mkt">Маркетинг</span></div>
+    <a href="https://www.mentimeter.com" target="_blank" class="card-link">mentimeter.com</a>
+  </div>
+
+  <div class="card" data-tags="mkt">
+    <span class="card-num">05</span>
+    <div class="card-name">Outgrow</div>
+    <p class="card-desc">Мощный инструмент для маркетинговых квизов, лидогенерации и вовлечения аудитории.</p>
+    <div class="card-tags"><span class="ctag mkt">Маркетинг</span></div>
+    <a href="https://outgrow.co" target="_blank" class="card-link">outgrow.co</a>
+  </div>
+
+  <div class="card" data-tags="mkt">
+    <span class="card-num">06</span>
+    <div class="card-name">OpinionStage</div>
+    <p class="card-desc">Создание квизов с ИИ для вовлечения и монетизации аудитории.</p>
+    <div class="card-tags"><span class="ctag mkt">Маркетинг</span></div>
+    <a href="https://www.opinionstage.com" target="_blank" class="card-link">opinionstage.com</a>
+  </div>
+
+  <div class="card" data-tags="edu free">
+    <span class="card-num">07</span>
+    <div class="card-name">AlgorEducation</div>
+    <p class="card-desc">Загружаете текст или видео — ИИ мгновенно создаёт структурированные вопросы.</p>
+    <div class="card-tags"><span class="ctag edu">Образование</span><span class="ctag free">Бесплатно</span></div>
+    <a href="https://algoreducation.com" target="_blank" class="card-link">algoreducation.com</a>
+  </div>
+
+  <div class="card" data-tags="free edu">
+    <span class="card-num">08</span>
+    <div class="card-name">EaseMate AI</div>
+    <p class="card-desc">Бесплатный генератор с несколькими уровнями сложности и вариантами ответов.</p>
+    <div class="card-tags"><span class="ctag free">Бесплатно</span><span class="ctag edu">Образование</span></div>
+    <a href="https://easemate.ai" target="_blank" class="card-link">easemate.ai</a>
+  </div>
+
+  <div class="card" data-tags="mkt">
+    <span class="card-num">09</span>
+    <div class="card-name">Typeform AI</div>
+    <p class="card-desc">Красивые интерактивные квизы с продвинутой логикой ветвления.</p>
+    <div class="card-tags"><span class="ctag mkt">Маркетинг</span></div>
+    <a href="https://www.typeform.com" target="_blank" class="card-link">typeform.com</a>
+  </div>
+
+  <div class="card" data-tags="edu">
+    <span class="card-num">10</span>
+    <div class="card-name">Formative AI</div>
+    <p class="card-desc">Платформа для образовательных тестов с адаптивными заданиями и аналитикой.</p>
+    <div class="card-tags"><span class="ctag edu">Образование</span></div>
+    <a href="https://www.formative.com" target="_blank" class="card-link">formative.com</a>
+  </div>
+
+  <div class="card" data-tags="edu mkt free">
+    <span class="card-num">11</span>
+    <div class="card-name">QuizMaker</div>
+    <p class="card-desc">Инструмент для многоформатных тестов: MCQ, true/false, drag-and-drop.</p>
+    <div class="card-tags"><span class="ctag edu">Образование</span><span class="ctag free">Бесплатно</span></div>
+    <a href="https://www.quiz-maker.com" target="_blank" class="card-link">quiz-maker.com</a>
+  </div>
+
+  <div class="card" data-tags="edu">
+    <span class="card-num">12</span>
+    <div class="card-name">Socrative AI</div>
+    <p class="card-desc">Для образовательных учреждений с реал-тайм мониторингом ответов.</p>
+    <div class="card-tags"><span class="ctag edu">Образование</span></div>
+    <a href="https://www.socrative.com" target="_blank" class="card-link">socrative.com</a>
+  </div>
+
+  <div class="card" data-tags="ru edu mkt free">
+    <span class="card-num">13</span>
+    <div class="card-name">НейроТекстер <span class="flag">🇷🇺</span></div>
+    <p class="card-desc">Российский лидер. Генерирует квизы любой сложности, образовательный и маркетинговый форматы.</p>
+    <div class="card-tags"><span class="ctag ru">Русский</span><span class="ctag edu">Образование</span></div>
+    <a href="https://neurotext.ru" target="_blank" class="card-link">neurotext.ru</a>
+  </div>
+
+  <div class="card" data-tags="ru mkt">
+    <span class="card-num">14</span>
+    <div class="card-name">GenAPI <span class="flag">🇷🇺</span></div>
+    <p class="card-desc">Универсальный ИИ-инструмент с фокусом на русскоязычный рынок и маркетинговые квизы.</p>
+    <div class="card-tags"><span class="ctag ru">Русский</span><span class="ctag mkt">Маркетинг</span></div>
+    <a href="https://genapi.ru" target="_blank" class="card-link">genapi.ru</a>
+  </div>
+
+  <div class="card" data-tags="ru edu game free">
+    <span class="card-num">15</span>
+    <div class="card-name">DiaClass <span class="flag">🇷🇺</span></div>
+    <p class="card-desc">Российский сервис для квизов и презентаций. Режим «Кахут», бесплатный план.</p>
+    <div class="card-tags"><span class="ctag ru">Русский</span><span class="ctag game">Игры</span><span class="ctag free">Бесплатно</span></div>
+    <a href="https://diaclass.ru" target="_blank" class="card-link">diaclass.ru</a>
+  </div>
+
+  <div class="card" data-tags="ru free">
+    <span class="card-num">16</span>
+    <div class="card-name">GigaChat <span class="flag">🇷🇺</span></div>
+    <p class="card-desc">Нейросеть от Сбера. Хорошо генерирует викторины по промпту на русском языке.</p>
+    <div class="card-tags"><span class="ctag ru">Русский</span><span class="ctag free">Бесплатно</span></div>
+    <a href="https://giga.chat" target="_blank" class="card-link">giga.chat</a>
+  </div>
+
+  <div class="card" data-tags="ru mkt">
+    <span class="card-num">17</span>
+    <div class="card-name">Marquiz <span class="flag">🇷🇺</span></div>
+    <p class="card-desc">Ориентирован на бизнес и лидогенерацию. Квизы как маркетинговая воронка.</p>
+    <div class="card-tags"><span class="ctag ru">Русский</span><span class="ctag mkt">Маркетинг</span></div>
+    <a href="https://marquiz.ru" target="_blank" class="card-link">marquiz.ru</a>
+  </div>
+
+  <div class="card" data-tags="ru edu free">
+    <span class="card-num">18</span>
+    <div class="card-name">СигмаЧат <span class="flag">🇷🇺</span></div>
+    <p class="card-desc">Чат-бот с генерацией интерактивных тестов, специализируется на образовании.</p>
+    <div class="card-tags"><span class="ctag ru">Русский</span><span class="ctag edu">Образование</span></div>
+    <a href="https://sigmachat.ru" target="_blank" class="card-link">sigmachat.ru</a>
+  </div>
+
+  <div class="card" data-tags="free edu game">
+    <span class="card-num">19</span>
+    <div class="card-name">Plaan Quiz AI</div>
+    <p class="card-desc">Быстрое создание тестов с ИИ-поддержкой. Бесплатный старт, подходит для блогеров.</p>
+    <div class="card-tags"><span class="ctag free">Бесплатно</span><span class="ctag edu">Образование</span></div>
+    <a href="https://plaan.co" target="_blank" class="card-link">plaan.co</a>
+  </div>
+
+  <div class="card" data-tags="edu mkt free">
+    <span class="card-num">20</span>
+    <div class="card-name">AISearch.ru <span class="flag">🇷🇺</span></div>
+    <p class="card-desc">Браузерный инструмент для создания квизов прямо из статей и документов.</p>
+    <div class="card-tags"><span class="ctag ru">Русский</span><span class="ctag free">Бесплатно</span></div>
+    <a href="https://aisearch.ru" target="_blank" class="card-link">aisearch.ru</a>
+  </div>
+
+</div>
+
+<footer>
+  <span>ТОП-20 AI для создания квизов и викторин</span>
+  <span>Обновлено: 2025</span>
+</footer>
+
+<script>
+function filterCards(tag, btn) {
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.card').forEach(card => {
+    const tags = card.dataset.tags || '';
+    if (tag === 'all' || tags.includes(tag)) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>
